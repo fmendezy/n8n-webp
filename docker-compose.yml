@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  n8n:
+    image: fmendezy/n8n-webp:latest
+    container_name: n8n-empire
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_HOST=n8n.empire.cl
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=https
+      - WEBHOOK_URL=https://n8n.empire.cl/
+      - VUE_APP_URL_BASE_API=https://n8n.empire.cl/
+      - N8N_EDITOR_BASE_URL=https://n8n.empire.cl
+      - GENERIC_TIMEZONE=America/Santiago
+      - TZ=America/Santiago
+    volumes:
+      - /home/empire/nginx-proxy/n8n-instance1/data:/home/node/.n8n
+      - /data/coolify/applications/dk0ggw4wsswso8swo80c4s44/tmp:/data/archivos-compartidos
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5678/"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
